@@ -1,0 +1,12 @@
+<script>
+(function() {
+  if(localStorage.getItem('darkMode')!=='disabled'){
+    document.documentElement.classList.add('dark-mode');
+    document.body.classList.add('dark-mode');
+  }
+  var w = localStorage.getItem('widthMode') || 'normal';
+  document.documentElement.classList.add('width-'+w);
+  document.body.classList.add('width-'+w);
+})();
+</script>
+<link rel="stylesheet" href="/assets/css/main.css">

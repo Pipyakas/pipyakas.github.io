@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+
+  <body>
+
+    {%- include header.html -%}
+
+    <div class="toc-trigger"></div>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="content">
+          {{ content }}
+        </div>
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+
+    {% if page.toc != false and page.url != '/' %}
+    <aside class="toc-sidebar" id="toc-sidebar">
+      <nav>
+        <ul id="toc-list"></ul>
+      </nav>
+    </aside>
+    <script>
+      (function() {
+        var headings = document.querySelectorAll('.post-content h2, .content h2');
+        var tocList = document.getElementById('toc-list');
+        var tocSidebar = document.getElementById('toc-sidebar');
+        if (headings.length && tocList) {
+          headings.forEach(function(h) {
+            if (!h.id) {
+              h.id = h.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            }
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '#' + h.id;
+            a.textContent = h.textContent;
+            li.appendChild(a);
+            tocList.appendChild(li);
+          });
+          // Show on load, then fade after 3 seconds
+          setTimeout(function() {
+            tocSidebar.classList.add('toc-hidden');
+          }, 3000);
+        }
+      })();
+    </script>
+    {% endif %}
+
+  </body>
+
+</html>

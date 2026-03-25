@@ -1,0 +1,165 @@
+---
+layout: post
+title:  "Surviving Bazzite"
+date:   2026-03-25 16:00:00 +0700
+categories: bazzite
+---
+
+After running [Bazzite](https://bazzite.gg/) for 6 months, this post is my dedicated blog to document what I needed to do to get it serving all of my needs.
+
+## ujust Commands
+
+Bazzite includes `ujust` (Universal Just) commands for common tasks:
+
+```bash
+# Update the system
+ujust update
+
+# Enter BIOS/UEFI setup
+ujust bios
+
+# Rebase to NVIDIA image (for devices with Nvidia GPU like Steam Deck OLED)
+ujust rebase-nvidia
+
+# Rebase to regular (non-NVIDIA) image
+ujust rebase
+
+# Toggle NVK (Vulkan drivers, alternative to rebasing)
+ujust toggle-nvk
+
+# Toggle Game Mode
+ujust toggle-gamemode
+
+# Install OpenRGB (for RGB lighting control)
+ujust install-openrgb
+```
+
+## Install System Packages
+
+In case you need to install some system packages that are not available to be used conveniently in homebrew or via containers:
+
+```bash
+sudo rpm-ostree install dotnet-sdk-8.0 dotnet-runtime-8.0 wine
+systemctl reboot
+```
+
+## Disable RAM LEDs with OpenRGB
+
+My desktop have DRAM DIMMs with LEDs, that have no dedicated software to control, even on Windows.
+
+While OpenRGB with higher level of privilages can work on Windows to detect the DIMMs, on Bazzite due to the distro's nature, it was not as straight forward.
+
+After installing OpenRGB with `ujust install-openrgb`:
+
+```bash
+# Load required kernel modules
+echo -e "i2c-dev\ni2c-piix4\ni2c-i801" | sudo tee /etc/modules-load.d/openrgb.conf
+
+# Turn off DRAM LEDs
+sudo ~/AppImages/openrgb.appimage --device DRAM --mode off
+```
+
+Create an autostart entry at `~/.config/autostart/openrgb-off.desktop`:
+
+```desktop
+[Desktop Entry]
+Type=Application
+Name=OpenRGB Startup Off
+Comment=Disable DRAM LEDs at startup
+Exec=sudo ~/AppImages/openrgb.appimage --device DRAM --mode off
+StartupNotify=false
+Terminal=false
+```
+
+Other useful OpenRGB commands:
+
+```bash
+# List all devices
+~/AppImages/openrgb.appimage --list-devices
+
+# Set specific device to off (replace 2 with device number)
+~/AppImages/openrgb.appimage --device 2 --color 000000
+```
+
+## Container Quadlets
+
+Bazzite uses systemd quadlets (like Docker Compose but native to systemd) to manage containers. Quadlet files go in `~/.config/containers/systemd/` or `~/.local/share/containers/systemd/`.
+
+### Basic Quadlet Structure
+
+Create a network quadlet first (`~/.config/containers/systemd/common.network`):
+
+```ini
+[Unit]
+Description=Shared network for my stack
+
+[Network]
+NetworkName=my_common_network
+DNS=true
+```
+
+Then create container quadlets (`~/.config/containers/systemd/myapp.container`):
+
+```ini
+[Unit]
+Description=My App
+After=network-online.target
+
+[Container]
+Image=myimage:latest
+ContainerName=myapp
+AutoUpdate=registry
+Network=my_common_network
+PublishPort=8080:80
+Volume=%h/myapp:/data:Z
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
+```
+
+### Apply Quadlets
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable --now myapp
+```
+
+## Zsh with CachyOS Theme
+
+Switch from bash to zsh with the CachyOS theme:
+
+```bash
+# Zsh is pre-installed on Bazzite, just switch to it
+chsh -s /bin/zsh
+
+# Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install Powerlevel10k
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+# Configure p10k
+p10k configure
+```
+
+Or use the CachyOS zsh config:
+
+```bash
+# Create config directory
+mkdir -p ~/.config/cachyos-zsh
+
+# Copy the cachyos zsh config
+curl -o ~/.config/cachyos-zsh/cachyos-config.zsh https://raw.githubusercontent.com/CachyOS/zsh-config/main/etc/skels/skel.zsh
+
+# Add to ~/.zshrc
+source ~/.config/cachyos-zsh/cachyos-config.zsh
+```
+
+Key plugins in the CachyOS config:
+- zsh-syntax-highlighting - Fish-like syntax highlighting
+- zsh-autosuggestions - Suggest commands as you type
+- zsh-history-substring-search - Search through history with arrow keys
+

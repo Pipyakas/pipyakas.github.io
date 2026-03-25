@@ -1,0 +1,12 @@
+{
+  "name": "Jekyll Development",
+  "image": "mcr.microsoft.com/devcontainers/jekyll:latest",
+  "forwardPorts": [4000],
+  "postCreateCommand": "bundle install --quiet",
+  "postStartCommand": "bundle exec jekyll serve --host 0.0.0.0 --port 4000 --livereload",
+  "customizations": {
+    "vscode": {
+      "extensions": ["runemadsen.readme-vscode"]
+    }
+  }
+}

@@ -29,10 +29,7 @@ github_username:  pipyakas
 
 # Build settings
 theme: minima
-minima:
-  skin: dark
-plugins:
-  - jekyll-feed
+permalink: /:title/
 
 # Exclude from processing.
 # The following items will not be processed, by default.

@@ -6,17 +6,17 @@ categories: linux
 ---
 Some useful commands for post-installation of Linux:
 
-### Dual-boot time fix ###
+## Dual-boot time fix ###
 ```bash
 timedatectl set-local-rtc 1 --adjust-system-clock
 ```
 
-### Fedora GRUB ###
+## Fedora GRUB ###
 ```bash
 sudo grub2-mkconfig -o /etc/grub2.cfg
 ```
 
-### zram ###
+## zram ###
 ```bash
 echo "zram" | sudo tee -a /etc/modules-load.d/zram.conf
 echo "options zram num_devices=1" | sudo tee -a /etc/modprobe.d/zram.conf
@@ -46,7 +46,7 @@ ExecStop=/sbin/swapoff /dev/zram0
 WantedBy=multi-user.target
 ```
 
-### amdgpu ###
+## amdgpu ###
 ```bash
 sudo add-apt-repository -y ppa:oibaf/graphics-drivers
 sudo apt dist-upgrade -y
@@ -56,12 +56,12 @@ echo "options amdgpu si_support=1 cik_support=1" | sudo tee --append /etc/modpro
 sudo update-initramfs -u
 ```
 
-### gdm ###
+## gdm ###
 ```bash
 sudo cp ~/.config/monitors.xml  /var/lib/gdm3/.config/
 ```
 
-### wayland ###
+## wayland ###
 Edit the following file:
 ```bash
 sudo gedit /etc/gdm3/custom.conf
@@ -71,7 +71,7 @@ Add the line:
 WaylandEnable=true
 ```
 
-### ntfs3 ###
+## ntfs3 ###
 ```bash
 uid=1000,gid=1000,rw,user,exec,umask=000,discard,noatime,x-gvfs-show
 ln -s ~/.steam/steam/steamapps/compatdata /mnt/d/SteamLibrary/steamapps/
@@ -80,7 +80,7 @@ ln -s ~/.steam/steam/steamapps/shadercache /mnt/d/SteamLibrary/steamapps/
 ln -s ~/.steam/steam/steamapps/shadercache /mnt/e/SteamLibrary/steamapps/
 ```
 
-### Kernel arg ###
+## Kernel arg ###
 For AMD:
 ```bash
 loglevel=0 systemd.show_status=true noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off mitigations=off amdgpu.ppfeaturemask=0xffffffff radeon.si_support=0 radeon.cik_support=0 amdgpu.si_support=1 amdgpu.cik_support=1
@@ -94,7 +94,7 @@ For Haswell:
 loglevel=0 systemd.show_status=true noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off mitigations=off i915.disable_power_well=0 i915.enable_fbc=1 i915.enable_dpcd_backlight=1 i915.enable_dc=1 i915.enable_guc=-1
 ```
 
-### Google Chrome/Chromium flags ###
+## Google Chrome/Chromium flags ###
 Edit the following file:
 ```bash
 nano ~/.config/chromium-flags.conf
@@ -112,13 +112,13 @@ Source: Conversation with Copilot, 7/1/2024
 (6) github.com. https://github.com/profjulianoramos/profjulianoramos.github.io/tree/53322d8792d7f92a478d6da14474399bea235648/blog%2F_posts%2F2020-6-12-ativarzram.md.
 ```
 
-### XanMod Kernel
+## XanMod Kernel
 ```bash
 echo 'deb http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-kernel.list && wget -qO - https://dl.xanmod.org/gpg.key | sudo apt-key add -
 sudo apt update && sudo apt install -y linux-xanmod
 ```
 
-### PowerTop
+## PowerTop
 Create a service file:
 ```bash
 sudo nano /etc/systemd/system/powertop.service
@@ -137,7 +137,7 @@ ExecStart=/usr/sbin/powertop --auto-tune
 WantedBy=multi-user.target
 ```
 
-### Docker (Ubuntu)
+## Docker (Ubuntu)
 ```bash
 sudo apt-get remove -y docker docker-engine docker.io containerd runc
 sudo apt-get update
@@ -151,7 +151,7 @@ sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
 ```
 
-### Mouse Scrollwheel Speed
+## Mouse Scrollwheel Speed
 Create an imwheel configuration file:
 ```bash
 touch imwheel.sh && gedit imwheel.sh
@@ -169,7 +169,7 @@ Add the following content:
 # If you have a mouse with complications or special needs,
 # use the command xev to find what your wheel does.
 #
-### see if imwheel config exists, if not create it ###
+## see if imwheel config exists, if not create it ###
 if [ ! -f ~/.imwheelrc ]
 then
 
@@ -215,14 +215,14 @@ Exec=/usr/bin/imwheel
 Terminal=false
 ```
 
-### Docker (Fedora)
+## Docker (Fedora)
 ```bash
 sudo dnf install -y moby-engine docker-compose
 sudo systemctl enable docker
 sudo usermod -aG docker $USER
 ```
 
-### ibus-bamboo
+## ibus-bamboo
 ```bash
 sudo add-apt-repository -y ppa:bamboo-engine/ibus-bamboo
 sudo apt-get update
@@ -232,7 +232,7 @@ env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['xkb:
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
 ```
 
-### Download VS Code Server
+## Download VS Code Server
 ```bash
 #!/bin/sh
 set -e
@@ -288,7 +288,7 @@ mkdir -vp ~/.vscode-server/bin/"${commit_sha}"
 tar --no-same-owner -xzv --strip-components=1 -C ~/.vscode-server/bin/"${commit_sha}" -f "/tmp/${archive}"
 ```
 
-### XAMPP service ###
+## XAMPP service ###
 Create a systemd service file:
 ```ini
 sudo nano /etc/systemd/system/xampp.service
@@ -307,13 +307,13 @@ Type=forking
 WantedBy=multi-user.target
 ```
 
-### RPMFusion ###
+## RPMFusion ###
 Install RPMFusion repositories for Fedora:
 ```bash
 sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 ```
 
-### General environment variables ###
+## General environment variables ###
 Set environment variables:
 ```bash
 export RADV_PERFTEST=aco
@@ -321,7 +321,7 @@ export PROTON_FORCE_LARGE_ADDRESS_AWARE=1
 export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1
 ```
 
-### Nvidia coolbits ###
+## Nvidia coolbits ###
 Configure Nvidia coolbits:
 ```bash
 sudo nvidia-settings -a '[gpu:0]/GPUPowerMizerMode=1' -a '[gpu:0]/GPUMemoryTransferRateOffset[2]=500'
@@ -343,7 +343,7 @@ Section "OutputClass"
 EndSection
 ```
 
-### Force Intel i915 driver ###
+## Force Intel i915 driver ###
 Create an Xorg configuration file:
 ```ini
 sudo gedit /etc/X11/xorg.conf.d/99-intel.conf
@@ -364,13 +364,13 @@ EndSection
 
 This script allows you to create a swapfile on your Linux system. You can customize the size of the swapfile based on your needs.
 
-### Usage
+## Usage
 
 1. Save the script to a file (e.g., `create_swapfile.sh`).
 2. Make the script executable: `chmod +x create_swapfile.sh`.
 3. Run the script: `./create_swapfile.sh`.
 
-### Script
+## Script
 
 ```bash
 #!/bin/bash
@@ -403,7 +403,7 @@ Certainly! Here's your provided information converted into a Markdown document:
 
 ## Mono Audio Setup
 
-### List Available Sources
+## List Available Sources
 
 To list available audio sources and filter for output devices, use the following command:
 
@@ -411,7 +411,7 @@ To list available audio sources and filter for output devices, use the following
 pacmd list-sources | grep 'name:.*output'
 ```
 
-### Remap Stereo to Mono
+## Remap Stereo to Mono
 
 Edit the PulseAudio configuration file:
 
@@ -434,7 +434,7 @@ Restart PulseAudio:
 pulseaudio -k && pulseaudio --start
 ```
 
-### Purge Ubuntu Snapd
+## Purge Ubuntu Snapd
 
 Remove Snapd from Ubuntu:
 
@@ -445,7 +445,7 @@ sudo rm -vrf /snap /var/snap /var/lib/snapd /var/cache/snapd /usr/lib/snapd
 sudo apt-mark hold snapd
 ```
 
-### Install Chromium with VAAPI Support on Fedora
+## Install Chromium with VAAPI Support on Fedora
 
 Install required packages:
 
@@ -453,7 +453,7 @@ Install required packages:
 sudo dnf install -y libva libva-intel-driver libva-intel-hybrid-driver libva-utils libva-vdpau-driver chromium-vaapi
 ```
 
-### Fix Steam Minimize Issue on Manjaro
+## Fix Steam Minimize Issue on Manjaro
 
 Edit the Steam script:
 
@@ -461,7 +461,7 @@ Edit the Steam script:
 sudo sed -i '8s/-0/-1/' /usr/bin/steam
 ```
 
-### PRIME Render Offload Argument
+## PRIME Render Offload Argument
 
 Add the following argument to launch Steam games using PRIME render offload:
 
@@ -469,7 +469,7 @@ Add the following argument to launch Steam games using PRIME render offload:
 __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia %command%
 ```
 
-### Optimus Manager Configuration (Arch/Manjaro)
+## Optimus Manager Configuration (Arch/Manjaro)
 
 Edit the optimus-manager configuration:
 
@@ -502,7 +502,7 @@ ignore_abi=yes
 options=overclocking, triple_buffer
 ```
 
-### Disable DualShock 4 Touchpad Input
+## Disable DualShock 4 Touchpad Input
 
 Create a udev rule to disable the DualShock 4 touchpad:
 
@@ -511,7 +511,7 @@ sudo nano /etc/udev/rules.d/95-disable-ds4-tp.rules
 SUBSYSTEM=="input", SUBSYSTEMS=="input", ATTRS{name}=="Wireless Controller Touchpad", ENV{LIBINPUT_IGNORE_DEVICE}="1"
 ```
 
-### Build Sunshine on Fedora
+## Build Sunshine on Fedora
 
 Install required development tools and dependencies:
 
@@ -524,7 +524,7 @@ cmake -DCMAKE_C_COMPILER=gcc-10 -DCMAKE_CXX_COMPILER=g++-10 ..
 make -j ${nproc}
 ```
 
-### EnvyControl Integrated Configuration
+## EnvyControl Integrated Configuration
 
 Edit the blacklist-nvidia.conf file:
 
@@ -566,7 +566,7 @@ ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300"
 ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
 ```
 
-### APT proxy ###
+## APT proxy ###
 ```bash
 sudo nano /etc/apt/apt.conf.d/proxy.conf
 ```

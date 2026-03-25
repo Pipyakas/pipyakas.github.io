@@ -1,0 +1,217 @@
+---
+layout: post
+title:  "Unreal Engine Horde on Bazzite"
+date:   2026-03-25 16:00:00 +0700
+categories: bazzite horde
+---
+
+This guide explains how to set up Epic's Horde build system with Unreal Build Accelerator (UBA) on Bazzite for distributed Unreal Engine 5 compilation from a Windows machine over LAN.
+
+## Host Details
+
+- OS: Bazzite (Kinoite) 43
+- Host LAN IP: `<YOUR_IP>`
+- Horde server HTTP: `5000`
+- Horde server gRPC: `5002`
+- Agent compute port: `7000`
+
+## 1) Resolve Port Conflicts
+
+Some services may conflict with Horde's default ports. Update container ports as needed.
+
+## 2) Install Required System Packages
+
+```bash
+sudo rpm-ostree install dotnet-sdk-8.0 dotnet-runtime-8.0 wine
+systemctl reboot
+```
+
+Verify:
+
+```bash
+which dotnet
+dotnet --list-runtimes
+which wine
+wine --version
+```
+
+## 3) Deploy Horde Backend Containers
+
+### 3.1 Login to GHCR
+
+```bash
+docker login ghcr.io
+```
+
+### 3.2 Run Redis + Mongo + Horde
+
+```bash
+docker run -d --name horde-redis --network host redis
+docker run -d --name horde-mongo --network host mongo
+docker run -d --name horde-server --network host \
+  -e Horde__RedisConnectionString=localhost:6379 \
+  -e Horde__MongoConnectionString=mongodb://localhost:27017 \
+  ghcr.io/epicgames/horde-server:latest
+```
+
+### 3.3 Set Container Auto-start
+
+```bash
+docker update --restart unless-stopped horde-redis horde-mongo horde-server
+```
+
+## 4) Install Horde Agent Binaries
+
+Download from the Horde server:
+
+```bash
+curl -o horde-agent.zip http://localhost:5000/api/v1/agentsoftware/default/zip
+unzip horde-agent.zip -d ~/HordeAgent/
+mkdir -p ~/HordeAgent/wineprefix
+```
+
+## 5) Agent Config and Service Setup
+
+### 5.1 Environment Variables
+
+Create a systemd user service with the correct environment:
+
+```ini
+[Unit]
+Description=Horde Agent Service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/HordeAgent
+Environment=Horde__ComputeIp=<YOUR_IP>
+Environment=Horde__UseWine=true
+Environment=Horde__WineExecutablePath=/usr/bin/wine
+Environment=Horde__Uba__WineExecutable=wine
+Environment=Horde__Uba__WinePrefix=/var/home/<USER>/HordeAgent/wineprefix
+Environment=TMPDIR=/var/home/<USER>/HordeAgent/tmp
+Environment=TMP=/var/home/<USER>/HordeAgent/tmp
+Environment=TEMP=/var/home/<USER>/HordeAgent/tmp
+ExecStartPre=/usr/bin/mkdir -p /var/home/<USER>/HordeAgent/tmp
+ExecStartPre=-/usr/bin/env WINEPREFIX=/var/home/<USER>/HordeAgent/wineprefix /usr/bin/wineboot -u
+ExecStart=/usr/bin/dotnet HordeAgent.dll service run -LogLevel=Information
+Restart=always
+RestartSec=10
+RuntimeMaxSec=24h
+TimeoutStopSec=2min
+
+[Install]
+WantedBy=default.target
+```
+
+Save to `~/.config/systemd/user/horde-agent.service`
+
+### 5.2 Enable and Start
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable --now horde-agent
+```
+
+## 6) Windows-side UBT/UBA Config
+
+Use `BuildConfiguration.xml` on Windows (not `DefaultEngine.ini`) and set Horde + UBA options explicitly:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration xmlns="https://www.unrealengine.com/BuildConfiguration">
+  <BuildConfiguration>
+    <bAllowUBAExecutor>true</bAllowUBAExecutor>
+  </BuildConfiguration>
+
+  <Horde>
+    <Server>http://<HORDE_IP>:5000</Server>
+    <MaxWorkers>8</MaxWorkers>
+  </Horde>
+
+  <UnrealBuildAccelerator>
+    <StoreCapacityGb>200</StoreCapacityGb>
+  </UnrealBuildAccelerator>
+</Configuration>
+```
+
+Common locations for `BuildConfiguration.xml`:
+
+- `%APPDATA%\\Unreal Engine\\UnrealBuildTool\\BuildConfiguration.xml`
+- `%PROGRAMDATA%\\Unreal Engine\\UnrealBuildTool\\BuildConfiguration.xml`
+
+If the build output still says `Storage capacity 40Gb`, the file being loaded is not the one you edited.
+
+Important: that `Storage capacity ...` line is the Windows UBA host store capacity, not the remote Linux worker store.
+
+## 7) Verification
+
+### Server Health
+
+```bash
+docker ps
+curl -s http://localhost:5000/
+curl -s http://localhost:5000/api/v1/server/ports
+```
+
+Expected: HTTP 200, ports 5000 and 5002 listed.
+
+### Agent Health
+
+```bash
+systemctl --user status horde-agent
+journalctl --user -u horde-agent -n 50
+```
+
+Expected in logs:
+- `ComputeIp=<YOUR_IP>`
+- `ComputePort=7000`
+- `WineEnabled=true`
+
+### Network Listeners
+
+```bash
+ss -ltn | grep ':5000\|:5002\|:7000'
+```
+
+Expected: Ports 5000, 5002, 7000 listening.
+
+## 8) Known Issues
+
+- Wine/UBA can still experience intermittent crashes under heavy compile load.
+- `Disk quota exceeded` can happen even with lots of disk free space if temp files land on quota-limited `tmpfs` mounts; forcing `TMPDIR/TMP/TEMP` to a directory under `/var/home` avoids this.
+- Current service runs with `RuntimeMaxSec=24h` for long-session testing. If stability regresses, temporarily reduce runtime max to force faster recycle during debugging.
+- Builds may fall back to local execution if UBA connection drops.
+
+## 9) Troubleshooting Checklist
+
+Use this quick sequence when remote compile behaves unexpectedly:
+
+1. Confirm Windows picked up your UBT config by checking build output for `Storage capacity 200Gb`.
+2. Confirm Horde agent is healthy on Linux:
+
+```bash
+systemctl --user status horde-agent --no-pager
+journalctl --user -u horde-agent -n 120 --no-pager
+```
+
+3. Confirm recent lease logs show remote worker startup and store line:
+
+```bash
+grep -R "StoreCapacity:" ~/HordeAgent/Data/Leases | tail -n 5
+```
+
+4. Check for Wine/UBA failure signatures in lease logs:
+
+```bash
+grep -R -Ei "disk quota exceeded|CreateFileMappingW failed|Access violation|Connection reset by peer|timed out" ~/HordeAgent/Data/Leases
+```
+
+5. Verify temp and disk context:
+
+```bash
+quota -s
+df -h /tmp /var/home
+```
+
+If `/tmp` is quota-limited, keep `TMPDIR/TMP/TEMP` pointed at `/var/home/<USER>/HordeAgent/tmp`.

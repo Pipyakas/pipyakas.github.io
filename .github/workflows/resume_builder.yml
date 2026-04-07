@@ -1,0 +1,45 @@
+name: Build and Deploy Resume
+
+on:
+  push:
+    paths:
+      - 'resume/resume.json'
+      - 'resume/resume.tex.template'
+      - 'scripts/generate_tex.py'
+      - '.github/workflows/resume_builder.yml'
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate LaTeX from JSON
+        run: python3 scripts/generate_tex.py
+
+      - name: Compile LaTeX to PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: resume/resume.tex
+          latexmk_use_xelatex: true
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Deploy PDF to assets
+        run: |
+          mkdir -p assets
+          cp resume.pdf assets/quy.nguyenngoc.pdf
+          git add assets/quy.nguyenngoc.pdf
+          git diff --staged --quiet || git commit -m "Update resume PDF [skip ci]"
+          git push

@@ -1,0 +1,71 @@
+{
+  "selectedTemplate": 1,
+  "basics": {
+    "name": "Nguyen Ngoc Quy",
+    "label": "Game & Platform Engineer",
+    "email": "pipyakas@gmail.com",
+    "phone": "+84 918 211 296",
+    "url": "https://quynn.dev",
+    "summary": "Software Engineer with 5+ years of experience in high-performance C++ systems. Specialist in CI/CD automation, Unreal Engine 5 migrations, and internal infrastructure development. Proven track record of operating independently in global remote environments across multiple time zones.",
+    "location": { "address": "Hanoi, Vietnam" }
+  },
+  "work": [
+    {
+      "name": "Gameloft",
+      "location": "Hanoi / Remote",
+      "position": "Game Programmer",
+      "startDate": "2021-03-01",
+      "endDate": "Present",
+      "highlights": [
+        "Core Engineering: Developed high-performance C++ systems for AAA mobile titles, managed Java-based Android platform integrations, and utilized Python for extensive toolset and pipeline scripting.",
+        "Jenkins CI/CD: Architected and maintained the build infrastructure for Sniper Fury, streamlining release stability and deployment pipelines.",
+        "Unreal Engine 5: Participated in the critical UI/UX migration for March of Empires, refactoring legacy systems to leverage modern rendering and widget frameworks.",
+        "Technical Leadership & Mentorship: Orchestrated specialized workshops and programming contests integrated with internal architecture while mentoring junior engineers to improve onboarding and documentation standards.",
+        "Cross-stack Adaptability: Successfully transitioned across 4+ major project teams (Asphalt, Sniper Fury, March of Empires, DML), mastering diverse legacy and modern tech stacks.",
+        "Global Remote Collaboration: Operate independently within a distributed workforce, collaborating effectively with cross-functional teams across international time zones.",
+        "English Communication: Utilize fluent business communication to manage stakeholder requirements and technical documentation in a multi-national environment."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Hanoi University of Science and Technology",
+      "area": "Global ICT (Information and Communication Technology)",
+      "studyType": "BS",
+      "startDate": "2014-09-01",
+      "endDate": "2021-10-01"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Languages & Soft Skills",
+      "keywords": [
+        "C++", "Java", "Python", "Fluent English", "Remote Autonomy"
+      ]
+    },
+    {
+      "name": "Engines & DevOps",
+      "keywords": [
+        "Unreal Engine 5", "Jenkins", "Docker", "Git", "Jira"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Backyard",
+      "url": "https://github.com/Pipyakas/backyard",
+      "description": "Architected a local-first LLM inference lab utilizing a high-performance Rust backend for managing and benchmarking servers on consumer hardware.",
+      "keywords": ["Rust", "llama.cpp", "Inference Optimization", "Docker"]
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Full Professional Proficiency"
+    },
+    {
+      "language": "Vietnamese",
+      "fluency": "Native"
+    }
+  ]
+}

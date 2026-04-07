@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 
 cleanup() {
   echo "Stopping preview..."
@@ -13,13 +14,13 @@ cleanup
 
 echo "Starting Jekyll devcontainer..."
 docker run -d --name jekyll-preview \
-  -p 4000:4000 \
+  -p 4001:4000 \
   -w /workspaces \
-  -v "$SCRIPT_DIR:/workspaces" \
+  -v "$ROOT_DIR:/workspaces" \
   mcr.microsoft.com/devcontainers/jekyll:latest \
   bundle exec jekyll serve --host 0.0.0.0 --port 4000
 
 sleep 10
 
-echo "Server running at http://localhost:4000"
+echo "Server running at http://localhost:4001"
 docker logs -f jekyll-preview

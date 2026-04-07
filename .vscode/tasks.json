@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Resume: Build PDF",
+      "type": "shell",
+      "command": "python3 scripts/generate_tex.py && cd resume && xelatex resume.tex && cp resume.pdf ../assets/quy.nguyenngoc.pdf",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Jekyll: Start Preview",
+      "type": "shell",
+      "command": "bash scripts/local.sh",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": [
+          {
+            "regexp": ".",
+            "file": 1,
+            "location": 2,
+            "message": 3
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Starting Jekyll devcontainer...",
+          "endsPattern": "Server running at http://localhost:4001"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Jekyll: Stop Preview",
+      "type": "shell",
+      "command": "docker stop jekyll-preview && docker rm jekyll-preview",
+      "problemMatcher": []
+    }
+  ]
+}

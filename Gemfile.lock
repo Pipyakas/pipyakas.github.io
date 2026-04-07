@@ -108,12 +108,12 @@ CHECKSUMS
   jekyll-sass-converter (3.0.0)
   jekyll-seo-tag (2.8.0)
   jekyll-watch (2.2.1)
-  json (2.9.1)
+  json (2.9.1) sha256=d2bdef4644052fad91c1785d48263756fe32fcac08b96a20bb15840e96550d11
   kramdown (2.5.2)
   kramdown-parser-gfm (1.1.0)
   liquid (4.0.4)
   listen (3.10.0)
-  logger (1.6.4)
+  logger (1.6.4) sha256=b627b91c922231050932e7bf8ee886fe54790ba2238a468ead52ba21911f2ee7
   mercenary (0.4.0)
   minima (2.5.1)
   pathutil (0.16.2)

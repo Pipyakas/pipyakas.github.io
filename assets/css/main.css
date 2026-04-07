@@ -34,14 +34,48 @@ body.dark-mode .site-footer {
   color: #a0a0a0 !important;
 }
 html.dark-mode body pre,
-html.dark-mode body code,
-body.dark-mode pre,
-body.dark-mode code,
+body.dark-mode pre {
+  background-color: #1a1a1a !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 10px;
+  overflow-x: auto;
+}
+
 html.dark-mode body .highlighter-rouge .highlight,
 body.dark-mode .highlighter-rouge .highlight {
-  background-color: #333 !important;
-  color: #e0e0e0 !important;
+  background-color: transparent !important;
 }
+
+html.dark-mode body code,
+body.dark-mode code {
+  background-color: #2a2a2a !important;
+  color: #e0e0e0 !important;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+
+/* Ensure code inside pre blocks doesn't double up on background/padding */
+html.dark-mode body pre code,
+body.dark-mode pre code {
+  background-color: transparent !important;
+  padding: 0;
+  border-radius: 0;
+}
+
+
+/* Syntax Highlighting for Dark Mode */
+.dark-mode .highlight .c, .dark-mode .highlight .cm, .dark-mode .highlight .c1 { color: #8e908c; font-style: italic; } /* Comment */
+.dark-mode .highlight .k, .dark-mode .highlight .kd, .dark-mode .highlight .kn, .dark-mode .highlight .kp, .dark-mode .highlight .kr { color: #c397d8; } /* Keyword */
+.dark-mode .highlight .o, .dark-mode .highlight .ow { color: #70c0b1; } /* Operator */
+.dark-mode .highlight .s, .dark-mode .highlight .sb, .dark-mode .highlight .sc, .dark-mode .highlight .sd, .dark-mode .highlight .s2, .dark-mode .highlight .se, .dark-mode .highlight .sh, .dark-mode .highlight .si, .dark-mode .highlight .sx, .dark-mode .highlight .s1, .dark-mode .highlight .ss { color: #b9ca4a; } /* String */
+.dark-mode .highlight .m, .dark-mode .highlight .mf, .dark-mode .highlight .mh, .dark-mode .highlight .mi, .dark-mode .highlight .mo, .dark-mode .highlight .il { color: #e78c45; } /* Number */
+.dark-mode .highlight .n, .dark-mode .highlight .na, .dark-mode .highlight .nb, .dark-mode .highlight .nc, .dark-mode .highlight .no, .dark-mode .highlight .nd, .dark-mode .highlight .ni, .dark-mode .highlight .ne, .dark-mode .highlight .nf, .dark-mode .highlight .nl, .dark-mode .highlight .nn, .dark-mode .highlight .nx, .dark-mode .highlight .py { color: #7aa6da; } /* Name */
+.dark-mode .highlight .nt { color: #d54e53; } /* Tag */
+.dark-mode .highlight .err { color: #d54e53; background-color: transparent; } /* Error */
+
 html.dark-mode body blockquote,
 body.dark-mode blockquote {
   background-color: #333 !important;
@@ -52,10 +86,7 @@ html.dark-mode body img,
 body.dark-mode img {
   opacity: 0.9;
 }
-html.dark-mode body .highlight,
-body.dark-mode .highlight {
-  background-color: #333 !important;
-}
+
 
 .post-content {
   max-width: 800px !important;
@@ -172,3 +203,174 @@ body:has(#toc-list li) .toc-trigger {
 .dark-mode #width-toggle {
   color: #e0e0e0 !important;
 }
+
+/* Resume page */
+.resume-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.resume-header {
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+.resume-header h2 {
+  margin-bottom: 0.2em;
+}
+
+.resume-subtitle {
+  color: #666;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-size: 1.2em;
+}
+
+.resume-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.dark-mode .resume-subtitle,
+.dark-mode .resume-contact {
+  color: #a0a0a0;
+}
+
+.resume-contact span i {
+  margin-right: 5px;
+}
+
+.resume-section {
+  margin-bottom: 2.5em;
+}
+
+.resume-section h3 {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.3em;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+  font-size: 1.1em;
+  letter-spacing: 0.05em;
+}
+
+.dark-mode .resume-section h3 {
+  border-color: #404040;
+}
+
+.resume-item {
+  margin-bottom: 1.5em;
+}
+
+.resume-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.2em;
+}
+
+.resume-item-title {
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.resume-item-date {
+  font-style: italic;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.dark-mode .resume-item-date {
+  color: #a0a0a0;
+}
+
+.resume-item-company,
+.resume-item-degree {
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 0.5em;
+  color: #444;
+}
+
+.dark-mode .resume-item-company,
+.dark-mode .resume-item-degree {
+  color: #ccc;
+}
+
+.resume-item-highlights {
+  margin-top: 0.5em;
+  padding-left: 1.5em;
+}
+
+.resume-item-highlights li {
+  margin-bottom: 0.3em;
+  font-size: 0.95em;
+}
+
+.resume-skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+
+.resume-skill-group {
+  font-size: 0.95em;
+}
+
+.resume-pdf-section {
+  margin-top: 3em;
+  border-top: 2px dashed #eee;
+  padding-top: 2em;
+}
+
+.dark-mode .resume-pdf-section {
+  border-color: #333;
+}
+
+.resume-pdf {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dark-mode .resume-pdf {
+  border-color: #404040;
+}
+
+.resume-pdf object {
+  display: block;
+  background: #fff;
+}
+
+.resume-download {
+  text-align: center;
+  margin-top: 1.5em;
+}
+
+.resume-download a {
+  display: inline-block;
+  padding: 0.6em 1.5em;
+  border: 1px solid #333;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.dark-mode .resume-download a {
+  border-color: #e0e0e0;
+  color: #e0e0e0;
+}
+
+.resume-download a:hover {
+  background: #333;
+  color: #fff;
+}
+
+.dark-mode .resume-download a:hover {
+  background: #e0e0e0;
+  color: #202020;
+}
+

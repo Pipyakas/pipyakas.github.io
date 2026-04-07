@@ -80,7 +80,7 @@ def generate_tex():
     skills_tex = " \\\\ ".join(skills_parts)
     template = template.replace("VAR_SKILLS", skills_tex)
 
-    output_path = os.path.join(root_dir, "resume.tex")
+    output_path = tex_path
     with open(output_path, "w") as f:
         f.write(template)
 

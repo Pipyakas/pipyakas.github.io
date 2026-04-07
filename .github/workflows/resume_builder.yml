@@ -39,7 +39,7 @@ jobs:
       - name: Deploy PDF to assets
         run: |
           mkdir -p assets
-          cp resume.pdf assets/quy.nguyenngoc.pdf
+          cp resume/resume.pdf assets/quy.nguyenngoc.pdf
           git add assets/quy.nguyenngoc.pdf
           git diff --staged --quiet || git commit -m "Update resume PDF [skip ci]"
           git push

@@ -11,6 +11,8 @@ on:
 jobs:
   build_latex:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,8 +40,10 @@ jobs:
 
       - name: Deploy PDF to assets
         run: |
+          ls -la
+          ls -la resume/
           mkdir -p assets
-          cp resume.pdf assets/quy.nguyenngoc.pdf
+          find . -maxdepth 2 -name "*.pdf" -exec cp {} assets/quy.nguyenngoc.pdf \;
           git add assets/quy.nguyenngoc.pdf
           git diff --staged --quiet || git commit -m "Update resume PDF [skip ci]"
           git push

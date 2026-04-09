@@ -12,7 +12,10 @@
         {%- endif -%}
       </div>
       <div class="footer-col">
-        <p>&copy; {{ site.time | date: '%Y' }} {{ site.author | default: site.title | escape }} &bull; <a href="{{ "/about/" | relative_url }}">About</a></p>
+        <p>&copy; {{ site.time | date: '%Y' }} {{ site.author | default: site.title | escape }}</p>
+      </div>
+      <div class="footer-col">
+        <button id="theme-toggle" onclick="toggleDarkMode()" title="Toggle dark mode"></button>
       </div>
     </div>
 

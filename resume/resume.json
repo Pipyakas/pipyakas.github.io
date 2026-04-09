@@ -17,11 +17,10 @@
       "startDate": "2021-03-01",
       "endDate": "Present",
       "highlights": [
-        "Core Engineering: Developed high-performance C++ systems for AAA mobile titles, managed Java-based Android platform integrations, and utilized Python for extensive toolset and pipeline scripting.",
+        "Core Engineering: Developed high-performance C++ systems for mobile titles, managed Java-based Android platform integrations, and utilized Python for extensive toolset and pipeline scripting.",
+        "Cross-stack Adaptability: Successfully delivered features across diverse environments including ActionScript for legacy games and Unreal Engine 5 for modern migration projects, internal AutomationTool for CI/CD, and specialized integrations for Netflix SDK (AXP) and China Channels SDKs (DML).",
         "Jenkins CI/CD: Architected and maintained the build infrastructure for Sniper Fury, streamlining release stability and deployment pipelines.",
-        "Unreal Engine 5: Participated in the critical UI/UX migration for March of Empires, refactoring legacy systems to leverage modern rendering and widget frameworks.",
         "Technical Leadership & Mentorship: Orchestrated specialized workshops and programming contests integrated with internal architecture while mentoring junior engineers to improve onboarding and documentation standards.",
-        "Cross-stack Adaptability: Successfully transitioned across 4+ major project teams (Asphalt, Sniper Fury, March of Empires, DML), mastering diverse legacy and modern tech stacks.",
         "Global Remote Collaboration: Operate independently within a distributed workforce, collaborating effectively with cross-functional teams across international time zones.",
         "English Communication: Utilize fluent business communication to manage stakeholder requirements and technical documentation in a multi-national environment."
       ]

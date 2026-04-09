@@ -1,3 +1,11 @@
+html {
+  overflow-y: scroll;
+}
+
+.site-nav .page-link {
+  vertical-align: middle;
+}
+
 html.dark-mode body,
 body.dark-mode {
   background-color: #202020 !important;
@@ -193,17 +201,115 @@ body:has(#toc-list li) .toc-trigger {
 }
 
 /* Toggle buttons */
-#theme-toggle, #width-toggle {
-  color: #333 !important;
-  vertical-align: middle;
-  height: 20px;
+/* Header alignment fixes */
+.site-header .wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 56px !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  padding: 0 15px !important;
 }
 
-.dark-mode #theme-toggle,
-.dark-mode #width-toggle {
+.site-header .wrapper::after {
+  display: none !important;
+}
+
+.site-title {
+  float: none !important;
+  margin-right: 20px !important;
+  line-height: 56px !important;
+  flex-shrink: 0;
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.site-nav {
+  float: none !important;
+  line-height: inherit !important;
+  position: static !important; /* Override absolute positioning in Minima */
+}
+
+.site-nav .trigger {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.site-nav .page-link {
+  line-height: inherit !important;
+  margin-left: 0 !important;
+  margin-right: 20px !important;
+  vertical-align: middle !important;
+}
+
+@media screen and (max-width: 600px) {
+  .site-nav .trigger {
+    display: none !important; /* Keep mobile menu hidden by default */
+  }
+  
+  .site-nav .nav-trigger:checked ~ .trigger {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    right: 15px;
+    top: 50px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 10;
+  }
+  
+  .dark-mode .site-nav .nav-trigger:checked ~ .trigger {
+    background: #2a2a2a;
+    border-color: #404040;
+  }
+}
+
+.site-nav .page-link {
+  color: #333 !important;
+  vertical-align: middle;
+  height: 32px !important;
+  width: auto !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  font-size: 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  margin-left: 20px !important;
+}
+
+.dark-mode .site-nav .page-link {
   color: #e0e0e0 !important;
 }
 
+#theme-toggle {
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin-left: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  color: #333 !important;
+}
+
+.dark-mode #theme-toggle {
+  color: #a0a0a0 !important;
+}
+
+.site-footer .footer-col-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+}
 /* Resume page */
 .resume-container {
   max-width: 900px;

@@ -29,7 +29,7 @@ github_username:  pipyakas
 
 # Build settings
 theme: minima
-permalink: /:title/
+permalink: /blog/:title/
 data_dir: resume
 
 # Exclude from processing.

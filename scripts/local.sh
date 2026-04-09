@@ -14,13 +14,13 @@ cleanup
 
 echo "Starting Jekyll devcontainer..."
 docker run -d --name jekyll-preview \
-  -p 4001:4000 \
+  -p 4444:4444 \
   -w /workspaces \
   -v "$ROOT_DIR:/workspaces" \
   mcr.microsoft.com/devcontainers/jekyll:latest \
-  bundle exec jekyll serve --host 0.0.0.0 --port 4000
+  bundle exec jekyll serve --host 0.0.0.0 --port 4444
 
 sleep 10
 
-echo "Server running at http://localhost:4001"
+echo "Server running at http://localhost:4444"
 docker logs -f jekyll-preview

@@ -29,7 +29,7 @@
         "background": {
           "activeOnStart": true,
           "beginsPattern": "Starting Jekyll devcontainer...",
-          "endsPattern": "Server running at http://localhost:4001"
+          "endsPattern": "Server running at http://localhost:4444"
         }
       },
       "presentation": {

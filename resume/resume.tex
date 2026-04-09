@@ -1,0 +1,113 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{tikz}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{rm}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\Huge \scshape Nguyen Ngoc Quy} \\ \vspace{1pt}
+    \small
+    \raisebox{-0.1\height}\faPhone\ +84 918 211 296 ~
+    \href{mailto:pipyakas@gmail.com}{\raisebox{-0.2\height}\faEnvelope\ pipyakas@gmail.com} ~
+    \href{https://quynn.dev}{\raisebox{-0.2\height}\faLink\ https://quynn.dev} ~
+    \raisebox{-0.1\height}\faMapMarker\ Hanoi, Vietnam
+\end{center}
+
+%-----------OBJECTIVE-----------
+\section{Summary}
+Software Engineer with 5+ years of experience in high-performance C++ systems. Specialist in CI/CD automation, Unreal Engine 5 migrations, and internal infrastructure development. Proven track record of operating independently in global remote environments across multiple time zones.
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Hanoi University of Science and Technology}{Sep 2014 -- Oct 2021}
+      {BS in Global ICT (Information and Communication Technology)}{}
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Gameloft}{Mar 2021 -- Present}
+      {Game Programmer}{}
+      \resumeItemListStart
+                \resumeItem{Core Engineering: Developed high-performance C++ systems for AAA mobile titles, managed Java-based Android platform integrations, and utilized Python for extensive toolset and pipeline scripting.}
+        \resumeItem{Jenkins CI/CD: Architected and maintained the build infrastructure for Sniper Fury, streamlining release stability and deployment pipelines.}
+        \resumeItem{Unreal Engine 5: Participated in the critical UI/UX migration for March of Empires, refactoring legacy systems to leverage modern rendering and widget frameworks.}
+        \resumeItem{Technical Leadership \& Mentorship: Orchestrated specialized workshops and programming contests integrated with internal architecture while mentoring junior engineers to improve onboarding and documentation standards.}
+        \resumeItem{Cross-stack Adaptability: Successfully transitioned across 4+ major project teams (Asphalt, Sniper Fury, March of Empires, DML), mastering diverse legacy and modern tech stacks.}
+        \resumeItem{Global Remote Collaboration: Operate independently within a distributed workforce, collaborating effectively with cross-functional teams across international time zones.}
+        \resumeItem{English Communication: Utilize fluent business communication to manage stakeholder requirements and technical documentation in a multi-national environment.}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages \& Soft Skills:} C++, Java, Python, Fluent English, Remote Autonomy \\ \textbf{Engines \& DevOps:} Unreal Engine 5, Jenkins, Docker, Git, Jira
+    }}
+ \end{itemize}
+
+%-------------------------------------------
+\end{document}

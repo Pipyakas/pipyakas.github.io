@@ -3,9 +3,9 @@
   "configurations": [
     {
       "name": "Preview Site (Chrome)",
-      "type": "pwa-chrome",
+      "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:4001",
+      "url": "http://localhost:4444",
       "webRoot": "${workspaceFolder}",
       "preLaunchTask": "Jekyll: Start Preview"
     }

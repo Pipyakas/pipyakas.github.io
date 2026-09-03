@@ -20,22 +20,23 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-\addtolength{\oddsidemargin}{-0.5in}
-\addtolength{\evensidemargin}{-0.5in}
-\addtolength{\textwidth}{1in}
-\addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{1.0in}
+\addtolength{\oddsidemargin}{-0.4in}
+\addtolength{\evensidemargin}{-0.4in}
+\addtolength{\textwidth}{0.8in}
+\addtolength{\topmargin}{-0.1in}
+\addtolength{\textheight}{0.2in}
 
 \urlstyle{rm}
 
 \raggedbottom
 \raggedright
 \setlength{\tabcolsep}{0in}
+\setlist{nosep,leftmargin=*}
 
 % Sections formatting
 \titleformat{\section}{
-  \vspace{-4pt}\scshape\raggedright\large
-}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+  \vspace{2pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{0pt}]
 
 \newcommand{\resumeItem}[1]{
   \item\small{
@@ -44,21 +45,21 @@
 }
 
 \newcommand{\resumeSubheading}[4]{
-  \vspace{-2pt}\item
+  \vspace{1pt}\item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-7pt}
+    \end{tabular*}\vspace{-2pt}
 }
 
 \newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
 
 \renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
 
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
-\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, itemsep=2pt]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{2pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=3pt, parsep=2pt, topsep=3pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
 
 \begin{document}
 
@@ -74,14 +75,14 @@
 
 %-----------OBJECTIVE-----------
 \section{Summary}
-Software Engineer with 5+ years of experience in high-performance C++ systems. Specialist in CI/CD automation, Unreal Engine 5 migrations, and internal infrastructure development. Proven track record of operating independently in global remote environments across multiple time zones.
+Software Engineer with 5+ years of experience in high-performance C++ systems, backend tooling, and local AI infrastructure. Specialized in containerized vLLM serving, agentic routing gateways, tool-calling workflows, and large-scale server stress testing. Proven track record of optimizing latency, concurrency, and developer productivity across distributed teams.
 
 %-----------EDUCATION-----------
 \section{Education}
   \resumeSubHeadingListStart
     \resumeSubheading
       {Hanoi University of Science and Technology}{Sep 2014 -- Oct 2021}
-      {BS in Global ICT (Information and Communication Technology)}{}
+      {BS in Global ICT (Global Engineer Program in Information and Communication Technology)}{}
   \resumeSubHeadingListEnd
 
 %-----------EXPERIENCE-----------
@@ -89,15 +90,17 @@ Software Engineer with 5+ years of experience in high-performance C++ systems. S
   \resumeSubHeadingListStart
     \resumeSubheading
       {Gameloft}{Mar 2021 -- Present}
-      {Game Programmer}{}
+      {Game Programmer (C++ Systems \& AI Infrastructure)}{}
       \resumeItemListStart
-                \resumeItem{Core Engineering: Developed high-performance C++ systems for AAA mobile titles, managed Java-based Android platform integrations, and utilized Python for extensive toolset and pipeline scripting.}
-        \resumeItem{Jenkins CI/CD: Architected and maintained the build infrastructure for Sniper Fury, streamlining release stability and deployment pipelines.}
-        \resumeItem{Unreal Engine 5: Participated in the critical UI/UX migration for March of Empires, refactoring legacy systems to leverage modern rendering and widget frameworks.}
-        \resumeItem{Technical Leadership \& Mentorship: Orchestrated specialized workshops and programming contests integrated with internal architecture while mentoring junior engineers to improve onboarding and documentation standards.}
-        \resumeItem{Cross-stack Adaptability: Successfully transitioned across 4+ major project teams (Asphalt, Sniper Fury, March of Empires, DML), mastering diverse legacy and modern tech stacks.}
-        \resumeItem{Global Remote Collaboration: Operate independently within a distributed workforce, collaborating effectively with cross-functional teams across international time zones.}
-        \resumeItem{English Communication: Utilize fluent business communication to manage stakeholder requirements and technical documentation in a multi-national environment.}
+                \resumeItem{Local LLM Infrastructure \& Serving (Jun 2026–Present): Deployed containerized LLM inference engines on multi-GPU nodes; optimized vLLM memory allocation, KV-cache, context length, concurrency, and speculative decoding via reproducible stress and tool-use benchmarks.}
+        \resumeItem{LLM Gateway \& Agentic Routing: Engineered an Anthropic/OpenAI-compatible AI Gateway in TypeScript to route agentic developer tools (Claude Code, OpenCode) across local vLLM instances and cloud models with streaming protocol translation, authentication, and PostgreSQL usage metering.}
+        \resumeItem{Automated Crash Analysis Pipeline: Architected an AI-assisted Linux core-dump diagnostic platform (S3 → WSL/GDB with archived symbols) that retrieves contextual stack traces, groups related crashes, and leverages LLMs for automated root-cause analysis and patch proposals via a PostgreSQL dashboard.}
+        \resumeItem{Automated SVN Code Review System: Developed a model-agnostic code review platform for SVN repositories featuring scheduled LLM evaluations, finding classification, verdict tracking, and notification workflows backed by PostgreSQL.}
+        \resumeItem{Backend Load \& Stress Testing: Built an automated testing platform simulating thousands of concurrent connection players to stress-test game backend servers and event APIs prior to production deployment.}
+        \resumeItem{Core C++ \& Client-Server Gameplay: Developed high-performance C++ gameplay systems and features across both client and server, contributing to Android platform porting and optimization.}
+        \resumeItem{Cross-Stack \& SDK Delivery: Delivered core features across ActionScript legacy titles and Unreal Engine 5 migration projects, integrating third-party backend SDKs including Netflix and regional distribution platforms.}
+        \resumeItem{CI/CD Infrastructure: Designed and maintained Jenkins build and deployment pipelines for Sniper Fury, improving release stability and operational efficiency.}
+        \resumeItem{Technical Leadership: Led technical workshops and programming contests while mentoring junior engineers and standardizing technical documentation in fluent business English.}
       \resumeItemListEnd
   \resumeSubHeadingListEnd
 
@@ -105,7 +108,7 @@ Software Engineer with 5+ years of experience in high-performance C++ systems. S
 \section{Technical Skills}
  \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
-     \textbf{Languages \& Soft Skills:} C++, Java, Python, Fluent English, Remote Autonomy \\ \textbf{Engines \& DevOps:} Unreal Engine 5, Jenkins, Docker, Git, Jira
+     \textbf{Core Systems \& Backend Engineering:} C++, Python, Node.js, REST APIs, PostgreSQL, Android Platform Development, Linux, GDB, Docker, Podman \\ \textbf{AI Engineering \& LLM Infrastructure:} Local LLM Inference, vLLM, Model Serving Optimization, LLM Gateways, Tool Calling \& Function Calling, Agentic Workflows, Claude Code, OpenCode, Claude Agent SDK \\ \textbf{DevOps \& Professional Tools:} Java, Unreal Engine 5, Jenkins CI/CD, Git / GitFlow, SVN, Jira
     }}
  \end{itemize}
 

@@ -1,29 +1,35 @@
 #!/usr/bin/env python3
 """Generate resume.tex from resume.json data."""
 
+import argparse
 import json
 import os
 import re
 
-def format_date(date_str):
+
+def format_date(date_str, locale="en"):
     """Convert ISO date to readable format."""
-    if date_str == "Present":
-        return "Present"
+    if date_str in ("Present", "Hiện tại"):
+        return "Present" if locale == "en" else "Hiện tại"
     try:
         parts = date_str.split("-")
-        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        month = months[int(parts[1]) - 1]
+        months_en = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        months_vi = ["01", "02", "03", "04", "05", "06",
+                     "07", "08", "09", "10", "11", "12"]
+        if locale == "vi":
+            return f"{months_vi[int(parts[1]) - 1]}/{parts[0]}"
+        month = months_en[int(parts[1]) - 1]
         year = parts[0]
         return f"{month} {year}"
     except (IndexError, ValueError):
         return date_str
 
+
 def escape_latex(text):
     """Escape LaTeX special characters in text."""
     if not isinstance(text, str):
         return text
-    
     escape_chars = {
         '&': r'\&',
         '%': r'\%',
@@ -36,17 +42,18 @@ def escape_latex(text):
         '^': r'\textasciicircum{}',
         '\\': r'\textbackslash{}'
     }
-    
     pattern = re.compile('|'.join(re.escape(k) for k in sorted(escape_chars.keys(), key=lambda x: -len(x))))
     return pattern.sub(lambda m: escape_chars[m.group(0)], text)
 
-def generate_tex():
-    """Read resume.json and generate resume.tex with filled data."""
+
+def generate_tex(locale="en"):
+    """Read resume_{locale}.json and generate resume_{locale}.tex with filled data."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.path.dirname(script_dir)
-    json_path = os.path.join(root_dir, "resume", "resume.json")
+    suffix = "" if locale == "en" else f"_{locale}"
+    json_path = os.path.join(root_dir, "resume", f"resume{suffix}.json")
     template_path = os.path.join(root_dir, "resume", "resume.tex.template")
-    tex_path = os.path.join(root_dir, "resume", "resume.tex")
+    tex_path = os.path.join(root_dir, "resume", f"resume{suffix}.tex")
 
     with open(json_path, "r") as f:
         data = json.load(f)
@@ -69,8 +76,8 @@ def generate_tex():
     if edu:
         edu_item = edu[0]
         template = template.replace("VAR_EDU_INSTITUTION", escape_latex(edu_item.get("institution", "")))
-        start = escape_latex(format_date(edu_item.get("startDate", "")))
-        end = escape_latex(format_date(edu_item.get("endDate", "")))
+        start = escape_latex(format_date(edu_item.get("startDate", ""), locale))
+        end = escape_latex(format_date(edu_item.get("endDate", ""), locale))
         template = template.replace("VAR_EDU_DATES", f"{start} -- {end}")
         template = template.replace("VAR_EDU_DEGREE", escape_latex(edu_item.get("studyType", "")))
         template = template.replace("VAR_EDU_AREA", escape_latex(edu_item.get("area", "")))
@@ -80,11 +87,10 @@ def generate_tex():
     if work:
         work_item = work[0]
         template = template.replace("VAR_WORK_NAME", escape_latex(work_item.get("name", "")))
-        start = escape_latex(format_date(work_item.get("startDate", "")))
-        end = escape_latex(format_date(work_item.get("endDate", "")))
+        start = escape_latex(format_date(work_item.get("startDate", ""), locale))
+        end = escape_latex(format_date(work_item.get("endDate", ""), locale))
         template = template.replace("VAR_WORK_DATES", f"{start} -- {end}")
         template = template.replace("VAR_WORK_POSITION", escape_latex(work_item.get("position", "")))
-
         highlights = work_item.get("highlights", [])
         highlights_tex = "\n".join(f"        \\resumeItem{{{escape_latex(h)}}}" for h in highlights)
         template = template.replace("VAR_WORK_HIGHLIGHTS", highlights_tex)
@@ -99,11 +105,15 @@ def generate_tex():
     skills_tex = " \\\\ ".join(skills_parts)
     template = template.replace("VAR_SKILLS", skills_tex)
 
-    output_path = tex_path
-    with open(output_path, "w") as f:
+    with open(tex_path, "w") as f:
         f.write(template)
+    print(f"Generated {tex_path} from {json_path}")
 
-    print(f"Generated {output_path}")
 
 if __name__ == "__main__":
-    generate_tex()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--locale", choices=["en", "vi", "all"], default="all", help="Which locale to generate")
+    args = parser.parse_args()
+    locales = ["en", "vi"] if args.locale == "all" else [args.locale]
+    for loc in locales:
+        generate_tex(loc)

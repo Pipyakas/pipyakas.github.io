@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'resume/resume.json'
+      - 'resume/resume_vi.json'
       - 'resume/resume.tex.template'
       - 'scripts/generate_tex.py'
       - '.github/workflows/resume_builder.yml'
@@ -25,12 +26,18 @@ jobs:
           python-version: '3.x'
 
       - name: Generate LaTeX from JSON
-        run: python3 scripts/generate_tex.py
+        run: python3 scripts/generate_tex.py --locale all
 
-      - name: Compile LaTeX to PDF
+      - name: Compile LaTeX to PDF (EN)
         uses: xu-cheng/latex-action@v3
         with:
           root_file: resume/resume.tex
+          latexmk_use_xelatex: true
+
+      - name: Compile LaTeX to PDF (VI)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: resume/resume_vi.tex
           latexmk_use_xelatex: true
 
       - name: Configure Git
@@ -38,12 +45,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Deploy PDF to assets
+      - name: Deploy PDFs to assets
         run: |
-          ls -la
-          ls -la resume/
           mkdir -p assets
-          find . -maxdepth 2 -name "*.pdf" -exec cp {} assets/quy.nguyenngoc.pdf \;
-          git add assets/quy.nguyenngoc.pdf
-          git diff --staged --quiet || git commit -m "Update resume PDF [skip ci]"
+          cp resume/resume.pdf assets/quy.nguyenngoc.pdf
+          cp resume/resume_vi.pdf assets/quy.nguyenngoc-vi.pdf
+          git add assets/quy.nguyenngoc.pdf assets/quy.nguyenngoc-vi.pdf
+          git diff --staged --quiet || git commit -m "Update resume PDFs [skip ci]"
           git push
